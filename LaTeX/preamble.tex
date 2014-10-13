@@ -1,0 +1,69 @@
+% ---------- Titelblad Masterproef Faculteit Wetenschappen -----------
+% Dit document is opgesteld voor compilatie met pdflatex.  Indien je
+% wilt compileren met latex naar dvi/ps, dien je de figuren naar
+% (e)ps-formaat om te zetten.
+%                           -- december 2012
+% -------------------------------------------------------------------
+\RequirePackage{fix-cm}
+\documentclass[12pt,a4paper,oneside]{article}
+
+% --------------------- In te laden pakketten -----------------------
+% Deze kan je eventueel toevoegen aan de pakketten die je al inlaadt
+% als je dit titelblad integreert met de rest van thesis.
+% -------------------------------------------------------------------
+\usepackage{graphicx,xcolor,textpos}
+\usepackage{helvet}
+
+% -------------------- Pagina-instellingen --------------------------
+% Indien je deze wijzigt, zal het titelblad ook wijzigen.  Dit dien je
+% dan manueel aan te passen.
+% --------------------------------------------------------------------
+
+\topmargin -10mm
+\textwidth 160truemm
+\textheight 240truemm
+\oddsidemargin 0mm
+\evensidemargin 0mm
+
+% ------------------- textpos-instellingen ---------------------------
+% Enkele andere instellingen voor het voorblad.
+% --------------------------------------------------------------------
+
+\definecolor{green}{RGB}{172,196,0}
+\definecolor{bluetitle}{RGB}{29,141,176}
+\definecolor{blueaff}{RGB}{0,0,128}
+\definecolor{blueline}{RGB}{82,189,236}
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{1mm}
+
+
+
+%----------------------- Custom stuff -------------------------------
+
+\graphicspath{./}
+\usepackage{makeidx}
+\index{hoofd}
+\makeindex
+\usepackage{amsmath}
+\usepackage[english]{babel}
+
+\usepackage{hyperref}
+
+
+
+
+%------------------------ Plot packages ----------------------------
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+\usepackage{pgf}
+\usepackage{units}
+\usepackage{metalogo}
+
+
+
+
+
+
+
+% --------------------------------------------------------------------
