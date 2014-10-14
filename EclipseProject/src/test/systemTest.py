@@ -18,7 +18,7 @@ def f(y,t):
 
 
 
-w = 0.01
+wsqr = 0.1
 sigma = 1.
 K = 1.
 g = 1.
@@ -30,10 +30,10 @@ class rho0(func.Function):
 # Create the two objects to represent the functions P and Q
 class P(func.Function):
     def evaluate(self, x):
-        return w**2*rho0().evaluate(x)
+        return wsqr*rho0().evaluate(x)
 class Q(func.Function):
     def evaluate(self, x):
-        return -K**2*(rho0().evaluate(x)*w**2+rho0().derivative(x)*g)
+        return -K**2*(rho0().evaluate(x)*wsqr+rho0().derivative(x)*g)
 
 
 
@@ -51,7 +51,7 @@ S = soln[:, 0]
 Z = soln[:, 1]
 
 
- # plot results
+# plot results
 plt.plot(t,S)
 #plt.plot(t,Z)
 #plt.plot(t,R)

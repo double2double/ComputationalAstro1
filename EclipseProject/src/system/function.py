@@ -26,10 +26,5 @@ class Function(object):
         '''
         A method to calculate the derivative of the function
         '''
-        
-        '''
-        I need to implement this method here
-        '''
         return (self.evaluate(x+self._DELTA/2) - self.evaluate(x-self._DELTA))/(self._DELTA)
-        raise NotImplementedError
         
