@@ -20,10 +20,16 @@ class RungeKutta(object):
         Output:
             an object of the class RungeKutta that can integrate 
             the ODE specified in the object ode
-        """
+        
         #If one of the parameters is left None all the parameters A,b,c will be
         #set to the default runge-kutta 4th order sceme (RG4)
-        
+               0
+        1/2    1/2
+        1/2    0    1/2
+        1      0    0    1    
+        1/6    1/3    1/3    1/6
+
+        """
         if (A==None) or (b==None)  or (c==None) :
             A = [[0 * j *i for i in range(4)] for  j in range(4)]
             A[1][0] = 1.0/2
@@ -54,13 +60,11 @@ class RungeKutta(object):
         Output:
             y -- state at time t0+h
         """
-        
         k = self.kValues(tn,yn,h)
         lincombinatie = scipy.zeros(len(yn))
         for i in range(len(self.b)):
-            lincombinatie = scipy.add(scipy.multiply(k[i],self.b[i]), lincombinatie)
+            lincombinatie = scipy.add(scipy.multiply(k[i],self.b[i]*h), lincombinatie)
         return yn + lincombinatie
-    
     def  kValues(self,tn,yn,h):
         #Initialise an empty vector k of the same length as b and init tnew
         A = self.A
@@ -72,13 +76,15 @@ class RungeKutta(object):
         lincombinatie = ynew
         for i in range(len(b)):
             tnew = tn + c[i]*h
+            ynew = scipy.zeros(len(yn))
+            lincombinatie = scipy.zeros(len(yn))
             for j in range(i):
-                prod = scipy.multiply(A[i][j],k[j])
+                prod = scipy.multiply(A[i][j]*h,k[j])
                 lincombinatie = scipy.add(lincombinatie,prod)
             ynew = scipy.add(yn,lincombinatie)
-            k[i] = scipy.multiply(h,self.ode.f(tnew,ynew))
+            k[i] = scipy.multiply(1,self.ode.f(tnew,ynew))
+            #k[i] = scipy.multiply(h,self.ode.f(tnew,ynew))
         return k
-        
     def scalarProductArray(self,sc,ar):
         return [x*sc for x in ar] 
     def sumOfArray(self,ar1,ar2):

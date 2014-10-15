@@ -4,9 +4,6 @@ Created on Wed Oct  8 17:17:48 2014
 
 @author: bob
 """
-import system.linearProblem as lnProblem
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
