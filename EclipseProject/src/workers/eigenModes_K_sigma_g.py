@@ -14,7 +14,7 @@ from scipy.signal import argrelextrema
 
 # Global parameters to tweak the algoritm
 DIST = 1
-GUESS_W = 0.1
+GUESS_W = 0.001
 UPPERZERO = 0.05
 
 
@@ -77,20 +77,27 @@ class EigenModes_K_sigma_g(worker):
         Spectrum[ksqr,sigma,g,:] are the first n spectral lines for the 
         assososieted parameters.
         '''
+        print 'started the task'
         # Create a 4 dimentional array to store the values in
         spectrum = scipy.zeros((len(self.Ksqr),len(self.sigma),len(self.g),self.n))
+        print spectrum
         # Starting the masive three dimtional itteration...
         for i in range(len(self.Ksqr)):
             for j in range(len(self.sigma)):
                 for k in range(len(self.g)):
+                    print 'Loop loop loop'
                     Ksqr = self.Ksqr[i]
                     sigma = self.sigma[j]
                     g = self.sigma[k]
                     eigen_nodes = scipy.zeros(self.n)
+                    print Ksqr
+                    print sigma
+                    print g
                     # No we are going to exploit the continuity of the solution
                     # and look in the vicinity of the previous points for solutions.
                     # But of course only if there are previous solutions.
                     if (i==0 or j==0 or k == 0):
+                        print 'Work harder'
                         eigen_nodes = self.search_hard(Ksqr,sigma,g)
                     if (i !=0 and j != 0 and k != 0):
                         # If there are previous solutions than the distance between
@@ -122,42 +129,54 @@ class EigenModes_K_sigma_g(worker):
         dist = dist + norm(average-v7, 2)
         dist = 1./7*dist
         return dist,average
+    def find_previous_eigen_mode(self,Ksqrnum,sigmanum,gnum,wguess):
+        '''
+        A method that calculates the solution for the eigen modes with w smaller than wguess
+        '''
+        nb_of_zero , index_last_min , end_point , length_Set = self.zero_point_info(Ksqrnum, sigmanum, gnum, wguess)
+        newW = wguess
+        while (nb_of_zero==0):
+            newW = (newW+0.0)/2
+            nb_of_zero , [] , end_point , length_Set = self.zero_point_info(Ksqrnum, sigmanum, gnum, newW)
+        previousW = newW
+        counter = 0
+        while(abs(end_point)>0.001):
+            counter = counter +1
+            nb_of_zero_new , index_last_min_new , end_point_new , length_Set_new = self.zero_point_info(Ksqrnum, sigmanum, gnum, newW)
+            print counter, newW , nb_of_zero_new , index_last_min_new , end_point_new , length_Set_new
+            if (abs(end_point_new)<0.001):
+                break
+            if (nb_of_zero_new>=nb_of_zero):
+                # Increase w
+                previousW = newW
+                newW = newW*(1+((length_Set-index_last_min_new)+0.0)/index_last_min_new)
+            if (nb_of_zero_new < nb_of_zero):
+                # Nu weten we dat het vorige punt wel nog achter het nulpunt lag dus nemen we het 
+                # gemmidelde tussen het slechte punt en het vorige goede punt.
+                newW = ((newW+previousW)+0.0)/2
+        return newW , nb_of_zero
+    
+    
     def search_hard(self,Ksqrnum,sigmanum,gnum):
         '''
         A method to search for the first n eigen modes, the hard way.
         This method will first guess the value of w. And based on the number of 
-        modes and n will search for the first n eigen modes.
+        modes it will find the value for tune thise guess.
+        If it finds a good value for w it will search for the neigbour values 
+        for w who are eigenmodes.
         '''
         eigenModes = scipy.zeros(self.n)
-        guess = GUESS_W
-        wsqrnum = guess
-        nb_of_zero , index_last_min , end_point = self.zero_point_info(Ksqrnum, sigmanum, gnum, wsqrnum)
-        '''
-        nb_of_zeros will be eighter of three following options
-            - 0 => Decrese the guess
-            - nb_of_zero < self.n => the guess is in the wright region
-            - nb_of_zero > self.n => Increase the guess.
-        The first to criteria are good, if it happens to be the 3 we will
-        place an other guess till it is one of the two first.
-        '''
-        while (nb_of_zero > self.n):
-            guess = 2 * guess
-            nb_of_zero , index_last_min , end_point = self.zero_point_info(Ksqrnum, sigmanum, gnum, wsqrnum)
-        # At this point we know we have a good guess and can start finding 
-        # the eigen modes.
-        while (nb_of_zero==0):
-            # Empirisch is er een snelle convergentie naar het nulpunt
-            # als we de eindwaarde van w aftrekken.
-            guess = scipy.absolute(guess - end_point)
-            nb_of_zero , index_last_min , end_point = self.zero_point_info(Ksqrnum, sigmanum, gnum, wsqrnum)
-            pass
-        # At this point there will be at least one zero point in the function.
-        # Lets now start looking for all the values of w for which the numbur
-        # of modes is smaller than nb_of_zero.
-        nb_of_nodes_to_find = nb_of_zero
-        while (nb_of_nodes_to_find != 0):
-            
-            pass
+        newW = GUESS_W
+
+        while (scipy.count_nonzero(eigenModes)!=self.n):
+            newW , nb_of_zero = self.find_previous_eigen_mode(Ksqrnum,sigmanum,gnum,newW)
+            print newW , nb_of_zero
+            if(nb_of_zero<=(self.n)):
+                eigenModes[nb_of_zero-1] = newW
+                pass
+            newW = newW*1.1
+            print eigenModes
+            # Fill all lower values.
         
     def zero_point_info(self,Ksqrnum,sigmanum,gnum,wsqrnum):
         '''

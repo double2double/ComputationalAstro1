@@ -13,40 +13,63 @@ import system.waveSystem as wave
 def f(y,t):
     return vgl.f(t, y)
 
+Solution = [ 0.1057867,   0.02557878,  0.01131672 ,
+             0.00634341,  0.00407022,  0.0028213,
+              0.00207537 , 0.00158514 , 0.00124911 , 0.00101265]
 
 
-wsqr = 0.1
-sigma = 1.
-K = 1.
-g = 1.
 
 # Create a aid function of the density
 class rho0(func.Function):
+    def __init__(self,Ksqr,sigma,g,wsqr):
+        func.Function.__init__(self)
+        self.Ksqr = Ksqr
+        self.sigma = sigma
+        self.g = g
+        self.wsqr = wsqr
     def evaluate(self, x):
-        return (1+sigma*x)
+        return (1+self.sigma*x)
 # Create the two objects to represent the functions P and Q
 class P(func.Function):
+    def __init__(self,Ksqr,sigma,g,wsqr):
+        func.Function.__init__(self)
+        self.Ksqr = Ksqr
+        self.sigma = sigma
+        self.g = g
+        self.wsqr = wsqr
     def evaluate(self, x):
-        return wsqr*rho0().evaluate(x)
+        return self.wsqr*rho0(self.Ksqr,self.sigma,self.g,self.wsqr).evaluate(x)
 class Q(func.Function):
+    def __init__(self,Ksqr,sigma,g,wsqr):
+        func.Function.__init__(self)
+        self.Ksqr = Ksqr
+        self.sigma = sigma
+        self.g = g
+        self.wsqr = wsqr
     def evaluate(self, x):
-        return -K**2*(rho0().evaluate(x)*wsqr+rho0().derivative(x)*g)
+        return -self.Ksqr*(rho0(self.Ksqr,self.sigma,self.g,self.wsqr).evaluate(x)*self.wsqr+
+                           rho0(self.Ksqr,self.sigma,self.g,self.wsqr).derivative(x)*self.g)
 
-
-
-    
-# create the ODE    
-vgl = wave.WaveSystem(P(),Q())
-
+wsqr = 0.00101265
+sigma = 1.
+Ksqr = 1.
+g = 1.
 # initial condition 
 y0 = [0.,1.]
 t  = np.linspace(0, 1., 1000)
 
-# solve the DEs
-soln = odeint(f, y0, t)
-S = soln[:, 0]
-Z = soln[:, 1]
+for i in Solution:
 
+    funcP = P(Ksqr,sigma,g,i)
+    funcQ = Q(Ksqr,sigma,g,i)
+    
+    # create the ODE    
+    vgl = wave.WaveSystem(funcP,funcQ)
+    # solve the DEs
+    soln = odeint(f, y0, t)
+    S = soln[:, 0]
+    Z = soln[:, 1]
+    plt.plot(t,S)
 
 # plot results
 plt.plot(t,S)

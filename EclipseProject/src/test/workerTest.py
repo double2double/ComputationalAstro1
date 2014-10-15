@@ -106,6 +106,11 @@ def find_eigen_mode():
     print newW
     plot_ode(Ksqr=1, sigma=1, g=1, wsqr=newW)
 
+def task():
+    eigenSys = eigenMode(Ksqr,sigma,g,y0,n,t0,tend,h)
+    eigenSys.task()
+    pass
+
 if __name__ == '__main__':
     Ksqr = [1]
     sigma = [1]
@@ -116,9 +121,10 @@ if __name__ == '__main__':
     tend = 1
     h = 0.1
     Ksqr=[1];sigma=[1];g=[1];y0=[0.,1.];n=10;t0=0;tend=1;h=0.01
-    nbOfZerosnumber_of_zeros()
-    find_eigen_mode()
-    plot_ode(Ksqr=1, sigma=1, g=1, wsqr=wsqrnum)
+    #nbOfZerosnumber_of_zeros()
+    #find_eigen_mode()
+    #plot_ode(Ksqr=1, sigma=1, g=1, wsqr=wsqrnum)
+    task()
 
 
 
