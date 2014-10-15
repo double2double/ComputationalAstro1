@@ -14,7 +14,7 @@ from scipy.signal import argrelextrema
 
 # Global parameters to tweak the algoritm
 DIST = 1
-GUESS_W = 0.001
+GUESS_W = 0.0001
 UPPERZERO = 0.05
 
 
@@ -80,7 +80,6 @@ class EigenModes_K_sigma_g(worker):
         print 'started the task'
         # Create a 4 dimentional array to store the values in
         spectrum = scipy.zeros((len(self.Ksqr),len(self.sigma),len(self.g),self.n))
-        print spectrum
         # Starting the masive three dimtional itteration...
         for i in range(len(self.Ksqr)):
             for j in range(len(self.sigma)):
@@ -90,15 +89,16 @@ class EigenModes_K_sigma_g(worker):
                     sigma = self.sigma[j]
                     g = self.sigma[k]
                     eigen_nodes = scipy.zeros(self.n)
-                    print Ksqr
-                    print sigma
-                    print g
                     # No we are going to exploit the continuity of the solution
                     # and look in the vicinity of the previous points for solutions.
                     # But of course only if there are previous solutions.
+                    eigen_nodes = self.search_hard(Ksqr,sigma,g)
+                    print ('Eigen Nodes for (%i,%i,%i) = %s')%(i,j,k,eigen_nodes)
+                    '''
                     if (i==0 or j==0 or k == 0):
                         print 'Work harder'
                         eigen_nodes = self.search_hard(Ksqr,sigma,g)
+                    
                     if (i !=0 and j != 0 and k != 0):
                         # If there are previous solutions than the distance between
                         # these will first be calculated to get an idea about the
@@ -112,6 +112,7 @@ class EigenModes_K_sigma_g(worker):
                             eigen_nodes = self.search_hard(Ksqr,sigma,g)
                         else:
                             eigen_nodes= self.search_soft(Ksqr,sigma,g,average)
+                    '''
                     spectrum[i,j,k,:] = eigen_nodes
                     
     def _distance(self,v1,v2,v3,v4,v5,v6,v7):
@@ -137,7 +138,7 @@ class EigenModes_K_sigma_g(worker):
         newW = wguess
         while (nb_of_zero==0):
             newW = (newW+0.0)/2
-            nb_of_zero , [] , end_point , length_Set = self.zero_point_info(Ksqrnum, sigmanum, gnum, newW)
+            nb_of_zero , index_last_min , end_point , length_Set = self.zero_point_info(Ksqrnum, sigmanum, gnum, newW)
         previousW = newW
         counter = 0
         while(abs(end_point)>0.001):
@@ -167,16 +168,13 @@ class EigenModes_K_sigma_g(worker):
         '''
         eigenModes = scipy.zeros(self.n)
         newW = GUESS_W
-
         while (scipy.count_nonzero(eigenModes)!=self.n):
             newW , nb_of_zero = self.find_previous_eigen_mode(Ksqrnum,sigmanum,gnum,newW)
             print newW , nb_of_zero
             if(nb_of_zero<=(self.n)):
                 eigenModes[nb_of_zero-1] = newW
-                pass
-            newW = newW*1.1
-            print eigenModes
-            # Fill all lower values.
+            newW = newW*1.1          
+        return eigenModes
         
     def zero_point_info(self,Ksqrnum,sigmanum,gnum,wsqrnum):
         '''
@@ -196,9 +194,9 @@ class EigenModes_K_sigma_g(worker):
         # Now we are going to calculate the local minima of the absolute value of the solution.
         solution_runge = [soln_runge[i][0] for i in range(len(soln_runge))]
         index_local = argrelextrema(scipy.absolute(solution_runge), scipy.less)[0]
-        # This will in theory give all the points wther the data is zero,
+        # This will in theory give all the points where the data is zero,
         # plus the starting point and possible also the end point.
-        # But due to the possible unsmoothness of the data some points could
+        # But due to the possible un smoothness of the data some points could
         # appear several times.
         # Seen that we are looking for the first n values of we can safely
         # assume that two 0 points should lie at a minimum distance of say

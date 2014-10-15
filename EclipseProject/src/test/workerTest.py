@@ -13,7 +13,6 @@ import system.waveSystem as wave
 import system.function as func
 import integrators.rungeKutta as rK
 import matplotlib.pyplot as plt
-import scipy
 
 Ksqr = [1]
 sigma = [1]

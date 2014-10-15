@@ -9,6 +9,8 @@ import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 import system.function as func
 import system.waveSystem as wave
+from scipy import zeros
+import scipy
 
 def f(y,t):
     return vgl.f(t, y)
@@ -67,8 +69,7 @@ for i in Solution:
     vgl = wave.WaveSystem(funcP,funcQ)
     # solve the DEs
     soln = odeint(f, y0, t)
-    S = soln[:, 0]
-    Z = soln[:, 1]
+    S =soln[:, 0]
     plt.plot(t,S)
 
 # plot results
