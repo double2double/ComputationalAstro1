@@ -21,7 +21,7 @@ if __name__ == '__main__':
     Ksqr = scipy.linspace(0.1, 10,  nb_ofLoopsPerProces*nb_Proces).tolist()
     sigma = scipy.linspace(1, 1.5, 1).tolist()
     g = scipy.linspace(1, 1.5, 1).tolist()
-    n = 3
+    n = 6
     y0=[0.,1.];
     t0=0
     tend=1
@@ -42,16 +42,23 @@ if __name__ == '__main__':
     print return_dict
     for i in range(nb_Proces):
         result[i*nb_ofLoopsPerProces:(i+1)*nb_ofLoopsPerProces,:] =  return_dict[i+1]
-    ax1 = plot.subplot2grid((3,2), (0,0), colspan=1)
-    ax2 = plot.subplot2grid((3,2), (1,0), colspan=1)
-    ax3 = plot.subplot2grid((3,2), (2, 0), rowspan=1)
-    ax4 = plot.subplot2grid((3,2), (0, 1), rowspan=3)
+    ax1 = plot.subplot2grid((3,4), (0,0), colspan=1)
+    ax2 = plot.subplot2grid((3,4), (1,0), colspan=1)
+    ax3 = plot.subplot2grid((3,4), (2, 0), colspan=1)
+    ax4 = plot.subplot2grid((3,4), (0, 1), colspan=1)
+    ax5 = plot.subplot2grid((3,4), (1, 1), colspan=1)
+    ax6 = plot.subplot2grid((3,4), (2, 1), colspan=1)
+    ax7 = plot.subplot2grid((3,4), (0, 2), rowspan=3,colspan=2)
 
     
     ax1.plot(result[:,3],result[:,0])
     ax2.plot(result[:,4],result[:,0])
     ax3.plot(result[:,5],result[:,0])
-    plottest.MyClass(data=result,fig = ax4)
+    ax4.plot(result[:,6],result[:,0])
+    ax5.plot(result[:,7],result[:,0])
+    ax6.plot(result[:,8],result[:,0])
+    plottest.MyClass(data=result,fig = ax7)
+    plot.savefig('../../plot/mainResult.eps')
     plot.show()
     
     

@@ -41,26 +41,20 @@ class workerStupid(worker):
         while endP<0:
             guess = guess*10
             endP = self.endPoint(guess)
-        info = self.zero_point_info(Ksqrnum,sigmanum,gnum,guess)
-        nb_zero = info[0]
-        jumpFactor = 1
+        
         guesses = scipy.zeros(n)
         positiveGuess = guess
         for i in range(n):
             teken = (-1)**i
-            print i
-            jumpFactor = 1
             endP = self.endPoint(guess)
-            info = self.zero_point_info(Ksqrnum,sigmanum,gnum,guess)
-            nb_zero = info[0]
             shrinksize = 0.9
             overCount = 1
             while scipy.absolute(endP)>MAX_TOL:
                 previous = guess
                 guess = previous * shrinksize
                 endP = self.endPoint(guess)
-                print ('endP,PreviousPos,value, shrink = %s ,%s , %s ,%s' )%(guess, positiveGuess, endP,shrinksize)
-                info = self.zero_point_info(Ksqrnum,sigmanum,gnum,guess)
+                #print ('endP,PreviousPos,value, shrink = %s ,%s , %s ,%s' )%(guess, positiveGuess, endP,shrinksize)
+        
                 if (scipy.absolute(endP)<MAX_TOL):
                     break
                 if (teken*endP<0):
