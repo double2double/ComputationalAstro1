@@ -6,7 +6,7 @@ Created on 14 Oct 2014
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
-import system.function as func
+import function.function as func
 import system.waveSystem as wave
 import integrators.rungeKutta as rK
 from math import ceil
@@ -17,25 +17,12 @@ def f(y,t):
 
 wsqr = 0.1
 sigma = 1.
-K = 1.
+Ksqr = 1.
 g = 1.
-
-# Create a aid function of the density
-class rho0(func.Function):
-    def evaluate(self, x):
-        return (1+sigma*x)
-# Create the two objects to represent the functions P and Q
-class P(func.Function):
-    def evaluate(self, x):
-        return wsqr*rho0().evaluate(x)
-class Q(func.Function):
-    def evaluate(self, x):
-        return -K**2*(rho0().evaluate(x)*wsqr+rho0().derivative(x)*g)
-
 
    
 # create the ODE    
-vgl = wave.WaveSystem(P(),Q())
+vgl = wave.WaveSystem(func.P(Ksqr,sigma,g,wsqr),func.Q(Ksqr,sigma,g,wsqr))
 
 # initial condition 
 y0 = [0.,1.]

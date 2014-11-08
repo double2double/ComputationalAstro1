@@ -10,7 +10,7 @@ A test file for the worker class.
 
 from workers.eigenModes_K_sigma_g import EigenModes_K_sigma_g as eigenMode
 import system.waveSystem as wave
-import system.function as func
+import function.function as func
 import integrators.rungeKutta as rK
 import matplotlib.pyplot as plt
 

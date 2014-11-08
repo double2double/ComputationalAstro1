@@ -5,7 +5,7 @@ Created on 14 Oct 2014
 '''
 from workers.worker import Worker as worker
 import system.waveSystem as wave
-import system.function as func
+import function.function as func
 import integrators.rungeKutta as rK
 import scipy
 from scipy.linalg import norm
@@ -19,37 +19,6 @@ UPPERZERO = 0.05
 
 
 
-class rho0(func.Function):
-    def __init__(self,Ksqr,sigma,g,wsqr):
-        func.Function.__init__(self)
-        self.Ksqr = Ksqr
-        self.sigma = sigma
-        self.g = g
-        self.wsqr = wsqr
-    def evaluate(self, x):
-        return (1+self.sigma*x)
-# Create the two objects to represent the functions P and Q
-class P(func.Function):
-    def __init__(self,Ksqr,sigma,g,wsqr):
-        func.Function.__init__(self)
-        self.Ksqr = Ksqr
-        self.sigma = sigma
-        self.g = g
-        self.wsqr = wsqr
-    def evaluate(self, x):
-        return self.wsqr*rho0(self.Ksqr,self.sigma,self.g,self.wsqr).evaluate(x)
-class Q(func.Function):
-    def __init__(self,Ksqr,sigma,g,wsqr):
-        func.Function.__init__(self)
-        self.Ksqr = Ksqr
-        self.sigma = sigma
-        self.g = g
-        self.wsqr = wsqr
-    def evaluate(self, x):
-        return -self.Ksqr*(rho0(self.Ksqr,self.sigma,self.g,self.wsqr).evaluate(x)*self.wsqr+
-                           rho0(self.Ksqr,self.sigma,self.g,self.wsqr).derivative(x)*self.g)
-
-
 
 class EigenModes_K_sigma_g(worker):
     '''
@@ -61,14 +30,7 @@ class EigenModes_K_sigma_g(worker):
         The constructor to set up the right parameters and to create
         the ode's
         '''
-        self.Ksqr = Ksqr
-        self.sigma = sigma
-        self.g = g
-        self.n = n
-        self.y0 = y0
-        self.t0 = t0
-        self.tend = tend
-        self.h = h
+        super(EigenModes_K_sigma_g, self).__init__(Ksqr, sigma, g, y0, n, t0, tend, h)
     def task(self):
         '''
         This is the main task. It calculates the first n values for the 
@@ -94,25 +56,6 @@ class EigenModes_K_sigma_g(worker):
                     # But of course only if there are previous solutions.
                     eigen_nodes = self.search_hard(Ksqr,sigma,g)
                     print ('Eigen Nodes for (%i,%i,%i) = %s')%(i,j,k,eigen_nodes)
-                    '''
-                    if (i==0 or j==0 or k == 0):
-                        print 'Work harder'
-                        eigen_nodes = self.search_hard(Ksqr,sigma,g)
-                    
-                    if (i !=0 and j != 0 and k != 0):
-                        # If there are previous solutions than the distance between
-                        # these will first be calculated to get an idea about the
-                        # sensibility of these solution to a change in the variables.
-                        # The weighted average will be used depending on how far away
-                        # the vectors are in param space.
-                        dist,average = self._distance(spectrum[i-1,j,k], spectrum[i,j-1,k], spectrum[i,j,k-1],
-                                              1./scipy.sqrt(2)*spectrum[i-1,j-1,k],1./scipy.sqrt(2)*spectrum[i-1,j,k-1],1./scipy.sqrt(2)*spectrum[i,j-1,k-1],
-                                              1./scipy.sqrt(3)*spectrum[i-1,j-1,k-1])
-                        if (dist>self._DIST):
-                            eigen_nodes = self.search_hard(Ksqr,sigma,g)
-                        else:
-                            eigen_nodes= self.search_soft(Ksqr,sigma,g,average)
-                    '''
                     spectrum[i,j,k,:] = eigen_nodes
                     
     def _distance(self,v1,v2,v3,v4,v5,v6,v7):
@@ -156,6 +99,29 @@ class EigenModes_K_sigma_g(worker):
                 # gemmidelde tussen het slechte punt en het vorige goede punt.
                 newW = ((newW+previousW)+0.0)/2
         return newW , nb_of_zero
+    def find_next_eigen_mode(self,Ksqrnum,sigmanum,gnum,wguess): 
+        'Deze methode gaat hier niet lukken op de trein...'
+        '''
+        A method that calculates the solution for the eigen modes with w greater than wguess
+        '''
+        nb_of_zero , index_last_min , end_point , length_Set = self.zero_point_info(Ksqrnum, sigmanum, gnum, wguess)
+        newW = wguess
+        counter = 0
+        while(abs(end_point)>0.001):
+            counter = counter +1
+            nb_of_zero_new , index_last_min_new , end_point_new , length_Set_new = self.zero_point_info(Ksqrnum, sigmanum, gnum, newW)
+            print counter, newW , nb_of_zero_new , index_last_min_new , end_point_new , length_Set_new
+            if (abs(end_point_new)<0.001):
+                break
+            if (nb_of_zero_new == nb_of_zero):
+                # Decrease w
+                previousW = newW
+                newW = newW*(1+((-length_Set+index_last_min_new)+0.0)/index_last_min_new)
+            if (nb_of_zero_new < nb_of_zero):
+                # Nu weten we dat het vorige punt wel nog achter het nulpunt lag dus nemen we het 
+                # gemmidelde tussen het slechte punt en het vorige goede punt.
+                newW = ((newW+previousW)+0.0)/2
+        return newW , nb_of_zero
     
     
     def search_hard(self,Ksqrnum,sigmanum,gnum):
@@ -186,8 +152,8 @@ class EigenModes_K_sigma_g(worker):
             - value_end_point: Holds the value of the endpoint of the equation
         '''
         #Create the ode
-        funcP = P(Ksqrnum,sigmanum,gnum,wsqrnum)
-        funcQ = Q(Ksqrnum,sigmanum,gnum,wsqrnum)
+        funcP = func.P(Ksqrnum,sigmanum,gnum,wsqrnum)
+        funcQ = func.Q(Ksqrnum,sigmanum,gnum,wsqrnum)
         vgl = wave.WaveSystem(funcP,funcQ)
         fe = rK.RungeKutta(vgl)
         t_runge,soln_runge = fe.integrate(self.y0, self.t0, self.tend, self.h)
