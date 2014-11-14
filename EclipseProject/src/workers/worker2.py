@@ -5,15 +5,12 @@ Created on 27 Oct 2014
 '''
 
 from workers.worker import Worker as worker
-import system.waveSystem as wave
-import function.function as func
-import integrators.rungeKutta as rK
 import scipy
 from scipy.signal import argrelextrema
 
 
 
-# Global parameters to tweak the algoritm
+# Global parameters to tweak the algorithm
 DIST = 1
 GUESS_W = 10
 UPPERZERO = 0.05

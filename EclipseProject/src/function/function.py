@@ -26,7 +26,7 @@ class Function(object):
         '''
         A method to calculate the derivative of the function
         '''
-        return (self.evaluate(x+self._DELTA/2) - self.evaluate(x-self._DELTA))/(self._DELTA)
+        return (self.evaluate(x+self._DELTA/2) - self.evaluate(x-self._DELTA/2))/(self._DELTA)
 
 
 class P(Function):
@@ -37,7 +37,7 @@ class P(Function):
         self.g = g
         self.wsqr = wsqr
     def evaluate(self, x):
-        return self.wsqr*rho0(self.Ksqr,self.sigma,self.g,self.wsqr).evaluate(x)
+        return self.wsqr*(rho0(self.Ksqr,self.sigma,self.g,self.wsqr).evaluate(x))
     
 class Q(Function):
     def __init__(self,Ksqr,sigma,g,wsqr):
@@ -47,8 +47,8 @@ class Q(Function):
         self.g = g
         self.wsqr = wsqr
     def evaluate(self, x):
-        return -self.Ksqr*(rho0(self.Ksqr,self.sigma,self.g,self.wsqr).evaluate(x)*self.wsqr+
-                           rho0(self.Ksqr,self.sigma,self.g,self.wsqr).derivative(x)*self.g)
+        return self.Ksqr*((rho0(self.Ksqr,self.sigma,self.g,self.wsqr).evaluate(x))*self.wsqr+
+                           (rho0(self.Ksqr,self.sigma,self.g,self.wsqr).derivative(x))*self.g)
         
 class rho0(Function):
     def __init__(self,Ksqr,sigma,g,wsqr):

@@ -1,0 +1,51 @@
+\section{Results}
+
+In this section we briefly give some results and explain our findings.
+We used the standard functions for $ P,Q $ and $ \rho $.
+If we used a positive sign for $ g $ no roots existed, this is the case there is a heavier fluid on top of a lighter one and was not stable.
+The function calculated for the positive values for $ g $ blew up exponentially.
+
+\subsection{Dispersion relations}
+
+\subsubsection{Dispersion of $ K^2 $}
+As a first experiment conducted we held all parameters fixed, ($ \sigma = 1, g = -1 $ ) except for the value of $ K^2 $.
+For this parameters we than searched for the eigenvalues for several modes.
+This yields dispersion curves of the allowed values for $ \omega $ as a function of $ K^2 $ as given in Figure \ref{fig:DispersionRelations}.
+The result in this plot looks very similar to what is given in the assignment.
+
+
+\subsubsection{Dispersion of $ \sigma^2 $}
+Next we calculated the dispersion relation for $ \sigma^2 $. All the other parameters where again held constant $ (g = -1,K^2 = 1) $.
+The result of this is given in Figure \ref{fig:DispersionRelations}.
+The shape of the curves look very similar as the dispersion for $ K $, but the value for omega drops rapidly if we search for higher order solutions.
+
+
+\subsubsection{Dispersion of $ g $}
+The final dispersion relation we investigated was the one of $ g $ and $ \omega^2 $.
+This is given in Figure \ref{fig:DispersionRelations}.
+Surprisingly there looks like a linear relation between $ g $ and $ \omega^2 $, this is completely different from the previous two dispersion relations.
+
+\begin{figure}[h!]
+        \centering
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=9cm]{../src/plot/DispersionK}
+\caption{The dispersion relation of $ K $ and $ \omega $. The line at the top is for the firs mode, the green line underneath is for the second mode and so on. }
+                \label{fig:gull}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.49\textwidth}
+                \includegraphics[width=9cm]{../src/plot/DispersionSigma}
+\caption{The dispersion relation of $ \sigma $ and $ \omega $. The line at the top is for the firs mode, the green line underneath is for the second mode and so on.}
+                \label{fig:tiger}
+        \end{subfigure}\\
+        
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{.5\textwidth}
+                 \includegraphics[width=9cm]{../src/plot/DispersionG}
+\caption{The dispersion relation of $ g $ and $ \omega $. The line at the top is for the firs mode, the green line underneath is for the second mode and so on.}
+                \label{fig:mouse}
+        \end{subfigure}
+        \caption{Several dispersion relations for the various variables and modes of the equation.}\label{fig:DispersionRelations}
+\end{figure}

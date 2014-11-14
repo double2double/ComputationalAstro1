@@ -16,12 +16,13 @@ if __name__ == '__main__':
     manager = multiprocessing.Manager()
     return_dict = manager.dict()
     jobs = []
-    nb_ofLoopsPerProces = 5
+    nb_ofLoopsPerProces = 1
     nb_Proces = 8
-    Ksqr = scipy.linspace(1, 500,  nb_ofLoopsPerProces*nb_Proces).tolist()
-    sigma = scipy.linspace(1, 1.5, 1).tolist()
+    Ksqr = scipy.linspace(300, 400,  nb_ofLoopsPerProces*nb_Proces).tolist()
+    sigma = scipy.linspace(1, 1,  1).tolist()
     g = scipy.linspace(-1, -1.5, 1).tolist()
-    n = 10
+    n = 4
+    
     y0=[0.,1.];
     t0=0
     tend=1
@@ -42,21 +43,12 @@ if __name__ == '__main__':
     print return_dict
     for i in range(nb_Proces):
         result[i*nb_ofLoopsPerProces:(i+1)*nb_ofLoopsPerProces,:] =  return_dict[i+1]
-    ax1 = plot.subplot2grid((1,2), (0,0), colspan=1)
-    ax7 = plot.subplot2grid((1,2), (0, 1), rowspan=1,colspan=1)
-
-    
-    ax1.plot(result[:,0],result[:,3])
-    ax1.plot(result[:,0],result[:,4])
-    ax1.plot(result[:,0],result[:,5])
-    ax1.plot(result[:,0],result[:,6])
-    ax1.plot(result[:,0],result[:,7])
-    ax1.plot(result[:,0],result[:,8])
-    ax1.plot(result[:,0],result[:,9])
-    ax1.plot(result[:,0],result[:,10])
-    ax1.plot(result[:,0],result[:,11])
-    ax1.plot(result[:,0],result[:,12])
-    plottest.PlotWave(data=result,fig = ax7)
+    ax1 = plot.subplot2grid((1,1), (0,0))
+    plottest.PlotWave(data=result,fig = ax1)    
+    plot.suptitle('Wave solutions corresponding to eigenvalues', fontsize=18)
+    plot.subplots_adjust(top=0.85)
+    ax1.set_xlabel('X', fontsize=16)
+    plot.tick_params(axis='both', which='major', labelsize=14)
     plot.savefig('../../plot/mainResult.eps')
     plot.show()
     

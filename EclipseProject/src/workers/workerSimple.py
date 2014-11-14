@@ -12,13 +12,11 @@ Created on 08 Nov 2014
 '''
 from workers.worker import Worker as worker
 import scipy
-from scipy.optimize import anderson
-from scipy.optimize import newton_krylov
 
 GUESS_W = 10
 MAX_TOL = 0.000001
 
-class workerStupid(worker):
+class workerSimple(worker):
     '''
     A class to represent a worker to find the eigenmodes as 
     a function of K^2, sigma and g
@@ -28,7 +26,7 @@ class workerStupid(worker):
         The constructor to set up the right parameters and to create
         the ode's
         '''
-        super(workerStupid, self).__init__(Ksqr, sigma, g, y0, n, t0, tend, h)
+        super(workerSimple, self).__init__(Ksqr, sigma, g, y0, n, t0, tend, h)
         self.f = open(filename, 'w')
         self.filename = filename
         self.name = name
@@ -41,7 +39,6 @@ class workerStupid(worker):
         while endP<0:
             guess = guess*10
             endP = self.endPoint(guess)
-        
         guesses = scipy.zeros(n)
         positiveGuess = guess
         for i in range(n):
@@ -53,12 +50,10 @@ class workerStupid(worker):
                 previous = guess
                 guess = previous * shrinksize
                 endP = self.endPoint(guess)
-                #print ('endP,PreviousPos,value, shrink = %s ,%s , %s ,%s' )%(guess, positiveGuess, endP,shrinksize)
         
                 if (scipy.absolute(endP)<MAX_TOL):
                     break
                 if (teken*endP<0):
-                    #print 'Ooh now'
                     overCount = overCount +1
                     shrinksize = shrinksize + 9./(10**overCount)
                     guess = positiveGuess
@@ -70,10 +65,7 @@ class workerStupid(worker):
                 guess = positiveGuess
                 guess = guess/shrinksize
                 endP = self.endPoint(guess)
-                print 'Stepping away: %s'%(endP)
-                print guesses
-                pass
-                
+                pass        
         return guesses
                 
             

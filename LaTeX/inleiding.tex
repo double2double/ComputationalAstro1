@@ -1,4 +1,17 @@
 \section{Introduction}
-\setcounter{page}{1}
-\pagenumbering{arabic}
 
+In this paper we try to model the propagations of waves trough an incompressible slab of material that is in an equilibrium state.
+The incompressibility of the material will prevent the formation of pressure driven waves, so looking at waves in this material looks a bit like a lost job.
+But through the introduction of gravity there could form gravity driven waves who can propagate through the material. 
+The equation describing these waves is given by
+\begin{equation}\label{eqn:diff}
+\dfrac{d}{dx} \left[\rho_{0}\omega^2\dfrac{\xi}{dx}\right] -K^2 \left[\rho_{0}\omega^2 + \rho_{0}'g\right]\xi = 0.
+\end{equation}
+Here $ \rho_{0} $ is the density of the material, $ \omega $ the frequency' $ K $ the wave number and $ g $ the graviton.
+Classically it is enough to provide one boundary condition to solve this differential equation, this will yield a solution for every value of $ \sigma $.
+However we could also give a boundary condition on a latter time step, if this is the case the possible solutions to the problem reduce a lot and only typical values for $ \omega $ will be allowed.
+These values for $ \omega $ are now the eigenfrequencies of this problem and will depend on the typical parameters involved in the equations.
+
+In this paper we will solve Equation \ref{eqn:diff} numerically using python and calculate the possible eigenfrequencies corresponding to the boundary conditions $ \xi(0)=0,\xi(1)=0 $.
+For the density we will only investigate a linear dependency, $ \rho_{0} = 1 + \sigma x $ .
+We will not only spend some time explaining the results it self but we will cover the most important parts of the code implementation as well.

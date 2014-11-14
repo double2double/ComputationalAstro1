@@ -1,0 +1,140 @@
+\section{Code Implementation}
+
+
+A main goal of the project was to not only create a working code but the code had to be reusable as well.
+To match these design criteria i have chosen for an object orientated approach in python and made full use of the inheritance features of the language.
+
+
+\subsection{Code structure}
+
+A good program always starts out with a good structure. 
+For this i decided to work with a number of python packages.
+Each of these packages had a typical task and several classes in it.
+In total i created 6 packages.
+Lets look in more detail at the function and classes specified in each package.
+\subsubsection{The Function Package}
+Recall the structure of the differential equation that had to be solved \textbf{Citation needed}.
+In this differential equation there where a couple of function who where specific for the differential equation.
+As well as finding the function value it also had to be possible to find the derivative of some of these functions.
+ 
+The task of the function package is to represent the functions from the differential equation.
+Each of the three functions ($ \rho_0(x,\omega^2),P(x,\omega^2),Q(x,\omega^2) $) is represented by a separate class who are daughter class from the main Function class.
+
+For example when we want for to experiment with the density of the gas, the only thing we have to do is change how the function $ \rho_0(x,\omega^2) $ is evaluated.
+Based on this evaluation the derivative of the density can be calculated as well.
+Standard this is done through a numerical approximation but this can be overwritten in each subclass.
+
+\subsubsection{The Integrator Package}
+
+This class consists of the integrators used to solve the differential equation.
+In this case it is just the Runge Kutta integrator but it can be generalised to more integrators as well.
+I have written the Runge Kutta integrator in the most general case.
+When one specifies no arguments or insufficient arguments to the constructor  of the class it sets up a regular Runge Kutta 4th order integrator.
+In contrast, when one specifies a butcher matrix the method gets adapted to the correct order.
+A possible disadvantage of this approach is that it is more error prone and possibly slower as well.  
+
+\subsubsection{The Main Package}
+Needs to be worked on.
+
+\subsubsection{The System Package}
+
+This is a class to represent the system of differential equations. 
+It contains two classes, a general system class and a daughter class to implement the given system.
+The mother class is just so that the Integrator can work with it.
+
+\subsubsection{The Test Package}
+
+To minimise the amount of debugging time in a coding project it is essential to start early on with the testing of all the classes and methods.
+This is the responsibility of this package, as it includes several classes to test separate parts of the code.
+A lot of these classes are not complete but can for example give a visual test of the solution.
+
+\subsubsection{The Worker Package}
+
+To speed the up computations i made use of the parallel architecture of most of the modern processors and made the code easily parallelizable, this is the task of this package.
+Several classes can be found in this package, one mother class en several subclasses which give an implementation of the task that has to be preformed.
+The motherclass Worker provides beside some general function who have to be implemented also some aid functions.
+The details of these will be explained in the next section.
+
+\subsection{Solving the Differential Equation}
+
+For solving a differential equation of the form
+\begin{equation}
+\dfrac{d }{dt} Y(x,t) = f(x,t)
+\end{equation}
+We need a method to integate the function $ f(x,t) $.
+In this paper we implemented the Runge Kutta method of order 4 to do so.
+The explicit formula for this method is given by
+\begin{equation}
+y_{n+1} = y_n + \frac{h}{6}(k_{1} + 2k_{2} + 2k_{3} + k_{4})
+\end{equation}
+where $ k_i $ are given by
+\begin{align*}
+k_1 &= f(t_n, y_n),\\
+k_2 &= f(t_n + \tfrac{h}{2}, y_n + \tfrac{h}{2} k_1),\\
+k_3 &= f(t_n + \tfrac{h}{2}, y_n + \tfrac{h}{2} k_2),\\
+k_4 &= f(t_n + h, y_n + hk_3).
+\end{align*}
+This method is of fourth order, this means that the error of the method drops as a fourth order function.
+\subsection{Finding the Eigenvalues}
+Solving the differential equation is the easy part of the assignment.
+Finding the eigenvalues was the real challenge and it was the task of the worker class.
+
+Finding an eigenvalue comes basically down of finding a root of the function
+\begin{equation}
+F_{end}(\omega^2;\sigma,K,g),
+\end{equation}
+which gives the function value of the differential equation at the position 1.
+I created a couple of workers each with its own way of finding this root.
+
+\subsubsection{The Simple Stepping Worker}
+
+The first and easiest to implement worker is the workerStupid.
+A simplified version of this algorithm can be found in Algoritme \ref{alg:stupid}.
+The basic idea is to start with a large enough value for $ \omega $ to start with and decrease it step by step.
+If you step over a root (If the sign of the end point flips) go back and decrease the step size.
+repeat this till you are close enough to the zero.
+For finding the next root just step away till you are out of the tolerance boundaries and repeat the process till you find a next point using the same convention.
+A huge downsides of this algorithm that it is slow and it relies on the initial conditions of the differential equations.
+A main advantage of the method is that it is guaranteed to converge toward a root and it is easy to understand.
+
+\begin{algorithm}[H]
+ initialization\;
+ guess = 1\;
+ shrinksize = 0.9\;
+ overcount = 1\;
+ endP = endPoint(guess)\;
+	 \While{Pend $ \leq $0}{
+		guess = guess*10\;
+		endP = endPoint(guess)\:
+	}
+	 \While{Pend $ \geq $MAXTOL}{
+		previous = guess\;
+		guess = previous * shrinksize\;
+		endP = endPoint(guess)\;
+	
+	\If{abs(endP)$ \leq $MAXTOL}{
+	   break\;
+	   }
+	 \If{endP$ \leq $0}{
+	 overCount = overCount +1\;
+	 shrinksize = shrinksize + 9/(10**overCount)\;
+	 }
+  }
+ 
+ \caption{The simplified version of the simple stepping algorithm, the step size is far from ideal and the convergens is sometimes very slow but it is always guaranteed to converges.}
+ \label{alg:stupid}
+\end{algorithm}
+
+\subsubsection{The Non Linear Worker}
+
+An other approach i tried is to use a non linear solver already implemented in python.
+The worker doing so is the workerNLS.
+I tried out some predefined non linear solvers but found that the Anderson mixing algorithm worked best for this problem. \textbf{Needs citation.}
+The big problem when using this solver was to guess the starting value  $ \omega $ for the iterative solver.
+One of my ideas was to calculate some roots randomly, afterwards calculate the interpolated polynomial trough this points and based on this do a guess for the next root.
+This however was hard to implement and did not work all of the time, so i moved away from this approach.
+However this method works good if we only need to find the first root and start out by a large enough guess for $ \omega $.
+The advantage of this method was it's speed.
+The disadvantage was finding higher order roots, and sometimes the algorithm did not converges at all.
+
+

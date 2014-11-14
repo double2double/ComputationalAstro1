@@ -3,7 +3,6 @@ Created on 13 Oct 2014
 
 @author: bob
 '''
-import scipy
 import ode_system
 class WaveSystem(ode_system.ODESystem):
     
@@ -29,14 +28,10 @@ class WaveSystem(ode_system.ODESystem):
         """
         Return the righthand side of the ODE
         """
-        
         P = self.P
-        Q = self.Q
-        dy_1 = y[1]
-        dy_2 = (Q.evaluate(x)*y[0]-P.evaluate(x)*y[1])/(P.derivative(x)) 
-         
-        #dy_1 = y[1]/P.evaluate(x)
-        #dy_2 = Q.evaluate(x)*y[0]
+        Q = self.Q 
+        dy_1 = y[1]/P.evaluate(x)
+        dy_2 = Q.evaluate(x)*y[0]
         return [dy_1, dy_2]
         
     

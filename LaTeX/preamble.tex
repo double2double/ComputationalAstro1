@@ -35,30 +35,53 @@
 \definecolor{blueline}{RGB}{82,189,236}
 \setlength{\TPHorizModule}{1mm}
 \setlength{\TPVertModule}{1mm}
-
-
-
 %----------------------- Custom stuff -------------------------------
-
 \graphicspath{./}
 \usepackage{makeidx}
 \index{hoofd}
 \makeindex
 \usepackage{amsmath}
 \usepackage[english]{babel}
-
 \usepackage{hyperref}
-
-
-
-
+\usepackage[]{algorithm2e}
 %------------------------ Plot packages ----------------------------
 \usepackage{tikz}
 \usepackage{pgfplots}
-
 \usepackage{pgf}
 \usepackage{units}
 \usepackage{metalogo}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% ------------------------Meta data---------------------------------
+
+\title{First Assignment Computational Methods for Astrophysical Applications}
+\author{Vergauwen Bob}
+\date{November 14, 2014}
+
+
+
+
+
+\usepackage[style=verbose]{biblatex}
+
+\usepackage{filecontents}% to embed the file `myreferences.bib` in your `.tex` file
+
+\begin{filecontents}{myrefrences.bib}
+@article{walker2011anderson,
+  title={Anderson acceleration for fixed-point iterations},
+  author={Walker, Homer F and Ni, Peng},
+  journal={SIAM Journal on Numerical Analysis},
+  volume={49},
+  number={4},
+  pages={1715--1735},
+  year={2011},
+  publisher={SIAM}
+}
+\end{filecontents}
+
+\addbibresource{myreferences.bib}
 
 
 
@@ -66,4 +89,5 @@
 
 
 
-% --------------------------------------------------------------------
+
+

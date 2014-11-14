@@ -6,7 +6,7 @@ Created on 08 Nov 2014
 from workers.worker import Worker as worker
 import scipy
 from scipy.optimize import anderson
-from scipy.optimize import newton_krylov
+#from scipy.optimize import newton_krylov
 
 GUESS_W = 1
 
@@ -32,9 +32,6 @@ class WorkerNLS(worker):
         self.tempKsqrnum = Ksqrnum
         self.tempsigmanum = sigmanum
         self.tempgnum = gnum
-        Nroots =  scipy.zeros(n)
-        allRoots = scipy.zeros(100)
-        goal = 0
         if n ==1:
             orde = 1
             while(orde!=0):

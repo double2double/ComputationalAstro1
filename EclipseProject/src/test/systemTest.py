@@ -3,6 +3,9 @@
 Created on Wed Oct  8 17:17:48 2014
 
 @author: bob
+
+A class to visually check the solutions of the differential equations.
+
 """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,11 +17,11 @@ import function.function as func
 def f(y,t):
     return vgl.f(t, y)
 # Values for wsqr
-Solution = [ 10 ]
+Solution = [ 0.1 ]
 # Parameters of the differential equations
 sigma = 1
-Ksqr = 25
-g = 1
+Ksqr = 1
+g = -1
 # initial condition 
 y0 = [0.,1.]
 t  = np.linspace(0, 1., 1000)

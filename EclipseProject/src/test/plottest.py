@@ -4,21 +4,17 @@ Created on 29 Oct 2014
 @author: bob
 '''
 
-import numpy as np
-import matplotlib.pyplot as plt
+import scipy 
 from scipy.integrate import odeint
 import function.function as func
 import system.waveSystem as wave
-import scipy
-import matplotlib.pyplot as plot
 
 
 
-class MyClass(object):
+class PlotWave(object):
     '''
-    classdocs
+    A class to plot the curves for the given parameters.
     '''
-
     def __init__(self, data,fig=None):
         self.fig = fig
         for i in range(len(data[:,0])):
@@ -26,6 +22,8 @@ class MyClass(object):
     def f(self,y,t):
         return self.vgl.f(t, y)
     def plotRow(self,row):
+        y0 = [0.,1.]
+        t  = scipy.linspace(0, 1., 1000)
         Solution = row[3:]
         Ksqr = row[0]
         sigma = row[1]
@@ -38,13 +36,12 @@ class MyClass(object):
             # solve the DEs
             soln = odeint(self.f, y0, t)
             S =soln[:, 0]
+            # Normalising the solution
+            MAX = max(S[:])
+            S = scipy.multiply(1/MAX,S)
             self.fig.plot(t,S)
 
 
-
-
-y0 = [0.,1.]
-t  = np.linspace(0, 1., 1000)
 
 
         

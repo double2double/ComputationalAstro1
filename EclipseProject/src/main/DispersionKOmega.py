@@ -6,21 +6,20 @@ Created on 29 Oct 2014
 import multiprocessing
 import scipy
 from workers.worker2 import Worker2 as worker2
-from workers.workerSimple import workerSimple as workerSimple
+from workers import workerSimple as workerSimple
 from workers.worker_nls import WorkerNLS
 import matplotlib.pyplot as plot
-from test import plottest
 
 
 if __name__ == '__main__':
     manager = multiprocessing.Manager()
     return_dict = manager.dict()
     jobs = []
-    nb_ofLoopsPerProces = 5
+    nb_ofLoopsPerProces = 10
     nb_Proces = 8
-    Ksqr = scipy.linspace(1, 500,  nb_ofLoopsPerProces*nb_Proces).tolist()
-    sigma = scipy.linspace(1, 1.5, 1).tolist()
-    g = scipy.linspace(-1, -1.5, 1).tolist()
+    Ksqr = scipy.linspace(0.1, 500,  nb_ofLoopsPerProces*nb_Proces).tolist()
+    sigma = [1]
+    g = [-500]
     n = 10
     y0=[0.,1.];
     t0=0
@@ -39,27 +38,21 @@ if __name__ == '__main__':
         print 'Job %s finished, from %s'% (i,len(jobs))
         i+=1
     result = scipy.zeros((nb_ofLoopsPerProces*nb_Proces,n+3))
-    print return_dict
     for i in range(nb_Proces):
         result[i*nb_ofLoopsPerProces:(i+1)*nb_ofLoopsPerProces,:] =  return_dict[i+1]
-    ax1 = plot.subplot2grid((1,2), (0,0), colspan=1)
-    ax7 = plot.subplot2grid((1,2), (0, 1), rowspan=1,colspan=1)
+    fig = plot.figure()
+    fig.suptitle('Dispersion Relation', fontsize=18)
+    ax = fig.add_subplot(111)
+    fig.subplots_adjust(top=0.85)
+    ax.set_xlabel('K sqr', fontsize=16)
+    ax.set_ylabel('Omega sqr', fontsize=16)
+    ax.tick_params(axis='both', which='major', labelsize=14)
+    for i in range(n):
+        ax.plot(result[:,0],result[:,3+i])
+    plot.savefig('../../plot/dispersionK.eps')
 
-    
-    ax1.plot(result[:,0],result[:,3])
-    ax1.plot(result[:,0],result[:,4])
-    ax1.plot(result[:,0],result[:,5])
-    ax1.plot(result[:,0],result[:,6])
-    ax1.plot(result[:,0],result[:,7])
-    ax1.plot(result[:,0],result[:,8])
-    ax1.plot(result[:,0],result[:,9])
-    ax1.plot(result[:,0],result[:,10])
-    ax1.plot(result[:,0],result[:,11])
-    ax1.plot(result[:,0],result[:,12])
-    plottest.PlotWave(data=result,fig = ax7)
-    plot.savefig('../../plot/mainResult.eps')
     plot.show()
-    
+
     
     
         

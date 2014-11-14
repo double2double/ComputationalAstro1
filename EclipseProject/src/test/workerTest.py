@@ -8,7 +8,7 @@ A test file for the worker class.
 
 '''
 
-from workers.eigenModes_K_sigma_g import EigenModes_K_sigma_g as eigenMode
+from workers.workerSimple import workerSimple as workerSimple
 import system.waveSystem as wave
 import function.function as func
 import integrators.rungeKutta as rK
@@ -72,12 +72,12 @@ def plot_ode(Ksqr, sigma, g, wsqr):
 
 
 def nbOfZerosnumber_of_zeros():
-    eigenSys = eigenMode(Ksqr,sigma,g,y0,n,t0,tend,h)
+    eigenSys = workerSimple(Ksqr,sigma,g,y0,n,t0,tend,h)
     print eigenSys.zero_point_info(Ksqrnum=1, sigmanum=1, gnum=1, wsqrnum=wsqrnum)
     
 def find_eigen_mode():
     w = wsqrnum
-    eigenSys = eigenMode(Ksqr,sigma,g,y0,n,t0,tend,h)
+    eigenSys = workerSimple(Ksqr,sigma,g,y0,n,t0,tend,h)
     nb_of_zero , index_last_min , end_point , length_Set = eigenSys.zero_point_info(Ksqrnum=1, sigmanum=1, gnum=1, wsqrnum=w)
     newW = w
     while (nb_of_zero==0):
@@ -106,7 +106,7 @@ def find_eigen_mode():
     plot_ode(Ksqr=1, sigma=1, g=1, wsqr=newW)
 
 def task():
-    eigenSys = eigenMode(Ksqr,sigma,g,y0,n,t0,tend,h)
+    eigenSys = workerSimple(Ksqr,sigma,g,y0,n,t0,tend,h)
     eigenSys.task()
     pass
 
