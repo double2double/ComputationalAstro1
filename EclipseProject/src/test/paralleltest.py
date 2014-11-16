@@ -44,7 +44,6 @@ if __name__ == '__main__':
         result[i*nb_ofLoopsPerProces:(i+1)*nb_ofLoopsPerProces,:] =  return_dict[i+1]
     ax1 = plot.subplot2grid((1,2), (0,0), colspan=1)
     ax7 = plot.subplot2grid((1,2), (0, 1), rowspan=1,colspan=1)
-
     
     ax1.plot(result[:,0],result[:,3])
     ax1.plot(result[:,0],result[:,4])

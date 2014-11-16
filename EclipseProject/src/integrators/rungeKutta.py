@@ -7,7 +7,6 @@ Created on Wed Oct  8 17:17:48 2014
 
 import scipy
 
-
 class RungeKutta(object):
         
     def __init__(self,ode,A=None,b=None,c=None):
