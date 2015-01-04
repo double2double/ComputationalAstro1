@@ -1,0 +1,56 @@
+bob$ $AMRVAC_DIR/setup.pl -d=22 -g=16,16 -p=rho -u=nul -arch=macbook
+
+bobMbp:vac bob$ $AMRVAC_DIR/setup.pl -d=22 -g=16,16 -p=rho -u=nul -arch=macbook
+-i used with no filenames on the command line, reading from STDIN.
+Getting makefile from source directory
+Getting definitions.h from source directory
+Getting amrvacsettings.t from source directory
+amrvacusr.t is already there, doing nothing!
+amrvacusrpar.t is already there, doing nothing!
+Getting mod_indices.t from source directory
+
+bob$ make
+
+(Creeerd een 40 tal bestanden o.a ./amrvac ,tijdens het creeren meld het
+soms dat er warnings zijn.)
+
+bob$ mpirun -np 2 ./amrvac -i testrho_vac22.par
+
+-----------------------------------------------------------------------------
+ -----------------------------------------------------------------------------
+ |         __  __ ____ ___        _    __  __ ______     ___    ____         |
+ |        |  \/  |  _ \_ _|      / \  |  \/  |  _ \ \   / / \  / ___|        |
+ |        | |\/| | |_) | |_____ / _ \ | |\/| | |_) \ \ / / _ \| |            |
+ |        | |  | |  __/| |_____/ ___ \| |  | |  _ < \ V / ___ \ |___         |
+ |        |_|  |_|_|  |___|   /_/   \_\_|  |_|_| \_\ \_/_/   \_\____|        |
+ -----------------------------------------------------------------------------
+ -----------------------------------------------------------------------------
+ Warning in ReadParameters: No save condition for file            3
+ typelimited to predictor for RK
+ Using           50  cells in dimension            1
+ level one dx(           1 )=   2.0000000000000000E-002
+ Using           50  cells in dimension            2
+ level one dx(           2 )=   2.0000000000000000E-002
+ Error estimation is Lohner's scheme
+ Reading from inifile: testrho_vac22.par
+ snapshotini         :           -1
+ slicenext           :            0
+ collapsenext        :            0
+ Filenameini         : data
+ Converting?         :  F
+                                                                 
+At line 135 of file amr_solution_node.f
+Fortran runtime error: Attempt to DEALLOCATE unallocated 'pw'
+At line 135 of file amr_solution_node.f
+Fortran runtime error: Attempt to DEALLOCATE unallocated 'pw'
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code.. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun detected that one or more processes exited with non-zero status, thus causing
+the job to be terminated. The first process to do so was:
+
+  Process name: [[8248,1],1]
+  Exit code:    2
+--------------------------------------------------------------------------
