@@ -1,0 +1,12 @@
+%title page
+	\setbeamertemplate{headline}[title_page]
+	\setbeamertemplate{footline}[title_page]
+	\csname beamer@calculateheadfoot\endcsname %recalculate head and foot dimension
+		\begin{frame}
+			\titlepage
+		\end{frame}
+%head and foot for body text	
+	\setbeamertemplate{headline}[body]
+	\setbeamertemplate{footline}[body]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

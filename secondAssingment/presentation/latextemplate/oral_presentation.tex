@@ -1,0 +1,155 @@
+%Created by Roland Pastorino in 2013
+%Contact info: roland.pastorino@mech.kuleuven.be / www.rolandpastorino.com
+%If you want to include your modifications in the template and make them available for everybody, you can contact the "KU Leuven, Dienst Communicatie, Afdeling Positionering en Marketing" (marketing@dcom.kuleuven.be) or myself.
+
+\documentclass[11pt,t]{beamer}
+\mode<presentation> {\usetheme{kuleuven}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%info
+\title{Title of the presentation}
+\author{author 1, author 2, author 3}
+\institute{Group, department, KU Leuven}
+\subtitle{subtitle}
+\date{January 6, 2013, Leuven, Belgium}
+%pdf metadata
+	\subject{KU Leuven's LaTeX template for oral presentation}
+	\keywords{KU Leuven, LaTeX template, beamer, TikZ, pdfLaTeX}
+\graphicspath{{graphics/}} % path to the graphics folder
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%title page
+	\setbeamertemplate{headline}[title_page]
+	\setbeamertemplate{footline}[title_page]
+	\csname beamer@calculateheadfoot\endcsname %recalculate head and foot dimension
+		\begin{frame}
+			\titlepage
+		\end{frame}
+%head and foot for body text	
+	\setbeamertemplate{headline}[body]
+	\setbeamertemplate{footline}[body]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Outline}
+	\vskip 5mm
+	\hfill	{\large \parbox{.95\textwidth}{\tableofcontents[hideallsubsections]}}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Slides with text only}
+%--------------------------------------
+\begin{frame}{Itemize and enumerate ideas with overlays}
+	\begin{itemize}
+		\item \textcolor{black}{first item}
+			\begin{itemize}
+				\item first subitem
+				\item second subitem
+			\end{itemize}
+		\item \textcolor{black}{second item}
+			\begin{itemize}
+				\item first subitem
+				\item second subitem
+			\end{itemize}
+	\end{itemize}
+	\vspace{2mm}
+	\begin{enumerate}
+		\item<2-> first item
+		\begin{enumerate}
+			\item first subitem
+			\item second subitem
+		\end{enumerate}
+		\item<2-> second item
+		\begin{enumerate}
+			\item first subitem
+			\item second subitem
+		\end{enumerate}
+	\end{enumerate}
+\end{frame}
+%--------------------------------------
+\begin{frame}[t]{Double--column slide}
+	\begin{columns}[t]
+		\begin{column}{.5\textwidth}
+			This is the top of the first column.	
+		\end{column}
+		\begin{column}{.5\textwidth}
+			This is the top of the second column.
+		\end{column}
+	\end{columns}	
+\end{frame}
+%--------------------------------------
+\begin{frame}{Fancy text and equations}
+	\begin{center}~
+		\begin{beamercolorbox}[wd=0.4\textwidth,rounded=true,center]{text}
+			This is a beamer color box
+		\end{beamercolorbox}~
+	\end{center}
+	\begin{theorem}
+		There exists an infinite set.
+	\end{theorem}
+	\begin{proof}
+		This follows from the axiom of infinity.
+	\end{proof}
+	\vspace{4mm}
+	\begin{equation}
+		\textbf{M} \ddot{\textbf{q}} + \boldsymbol{\mathsf{\Phi}}_{\textbf{q}}^T \boldsymbol\lambda = \textbf{Q}
+	\end{equation}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Slides with graphics and animations}
+%--------------------------------------
+\begin{frame}{Graphics and animation side by side}
+	\begin{figure}
+		\begin{minipage}[b]{0.49\linewidth}
+			\centering
+			\includegraphics[width=.3\textwidth]{Tux}
+		\end{minipage}
+		\hfill	
+		\begin{minipage}[b]{0.5\linewidth}
+			\centering
+			\movie[showcontrols=true,width=4cm,height=3cm]{}{graphics/anim_buggy_360deg.avi} %this video is encoded using H.264/MPEG-4 AVC. If you can not see it properly in the pdf, you can try to change the movie player used by your pdf viewer. In Adobe Reader, this can be done in Edit->Preferences-> Multimedia
+		\end{minipage}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Slides with text and graphics/animations}
+%--------------------------------------
+\begin{frame}[t]{Text and graphics}
+	\begin{columns}
+		\begin{column}{0.8\textwidth}
+			Some text at the top of the first column
+			\vspace{5mm}
+			\begin{itemize}
+				\item \textcolor{black}{First item}
+					\begin{itemize}
+						\item first subitem
+						\item second subitem
+					\end{itemize}
+				\item \textcolor{black}{Second item}
+					\begin{itemize}
+						\item first subitem
+						\item second subitem
+					\end{itemize}
+			\end{itemize}
+		\end{column}
+		\begin{column}{.2\textwidth}
+			Top of the second column
+			\begin{figure}
+				\includegraphics[width=0.8\textwidth]{FSF_Logo_menor}\\
+				\vspace{4mm}
+				\includegraphics[width=0.5\textwidth]{heckert_gnu}\\
+				\vspace{4mm}
+				\includegraphics[width=0.5\textwidth]{Tux}\\				
+			\end{figure}
+		\end{column}
+	\end{columns}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Further reading}
+%--------------------------------------
+\begin{frame}[t]{Further reading}
+	\begin{itemize}
+		\item BEAMER class user guide
+		\item TikZ and PGF manual
+	\end{itemize}
+\end{frame}
+\end{document}

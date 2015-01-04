@@ -1,0 +1,77 @@
+Presentation structure
+======================
+
+
+In dit document hale we kort de structuur aan van de presentatie.
+Nadien volgt er een korte text per slide.
+
+Structure
+------------
+
+###Slide 0 (Voor pagina) Alexis###
+
+Hier verwelkom ik de mensen. Ik zeg mijn naam, wat de titel is en zeg dat de vragen voor het laatste moeten worden gehouden.
+
+
+###Slide 1 (Introductie) Alexis###
+
+Hier komt de inleiding in het topic.
+- definitie van warmtecapaciteit
+- voorbeelden van negatieve respons in het dagelijkse leven
+
+###Slide 2 (Inhoud) Alexis ###
+
+Hier haal ik kort aan over wat we het gaan hebben in de presentatie.
+- Motivatie en inleiding
+- ...
+- conclusies er op letten dat ik geen 'uihm' ga zeggen en vlot en luid spreken.
+
+
+###Slide 3 (three state system) Alexis ###
+Ik stel hier kort de drie varianten van discrete systeem voor dat we hebben onderzocht
+
+
+###Slide 4 (Analytic results: two transitions) Alexis ###
+Ik bespreek hier de gevonden wartmtecapaciteiten
+- gebruikte methode: dQ zoeken via integraal
+- C2 negatief voor bepaalde waarden: zie plot
+
+###Slide 5 (Analytic results: three transitions) Alexis ###
+Ik bespreek hier de gevonden wartmtecapaciteiten
+- bij het zoeken van dQ moest er gebruik worden gemaakt van tijdsevolutie
+- C1 en C2 beiden steeds positief
+
+
+###Slide 6 (Discrete Simulations) Bob###
+Op deze slide vertel ik dat er twee methodes zijn gebruikt, de deterministische en de stochastische.
+
+
+###Slide 7 (Deterministic method) Bob###
+Hier leg ik kort deterministische methode uit.
+Zowel het algoritme als een plot van deze methode.
+
+###Slide 8 (Stochastic method) Bob###
+Hier leg ik kort deterministische methode uit.
+Zowel het algoritme  als een plot van deze methode.
+
+###Slide  9(Comparison of the two results) Bob###
+Hier laat ik de 2 plots zien van de twee en drie transities, ik vertel iets over de variantie etc.
+
+###Slide 10 (Langevin Dynamics) Alexis ###
+Bespreek systeem met ring:
+- verschillende krachten op deeltje
+- underdamped en overdamped
+
+###Slide 11 (Fokker-planck) Alexis ###
+bespreek Fokker-Planck vergelijking en oplossingen ervan voor de stationaire verdeling
+
+###Slide 12 (Fokker-planck) Alexis ###
+plot van stationaire verdeling voor verschillende waarden van F en T
+- bij hogere T gaat de verdeling meer en meer uniform zijn doordat de invloed van de brownse beweging steeds groter wordt
+- hogere F 'verschuiven' de verdeling
+
+###Slide 11 (Simulation the Langevin equation) Bob###
+Hier vertel ik dat er de twee langevin equations zijn gesimuleerd, over damped en under damped.
+Geef de verschillende formules voor de positie die kan geupdate worden.
+###Slide m+2 (The results of the ) Bob###
+R

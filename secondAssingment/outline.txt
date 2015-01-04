@@ -1,0 +1,33 @@
+Outline of the presentation
+
+
+Introduction:
+
+Algemeen uitleg over wat een riemann probleem inhoud.
+
+
+numerical methods:
+
+
+
+TVDLF:
+...
+Vertel iets over de werking van alle methode die we gebruiken... Heel kort maar.
+
+
+
+
+Working method, interaction with the server:
+
+
+(vertel ook dat we hebben geprobeerd de code op cw te draaien.)
+(Vertel iets over de compile bug.)
+
+
+Resultaten Deel A:
+
+
+Resultaten Deel B:
+
+
+Resultaten Deel C:

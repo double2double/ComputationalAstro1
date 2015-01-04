@@ -1,0 +1,32 @@
+\documentclass[11pt,t]{beamer}
+
+\usetheme{Dresden}
+\usecolortheme{default}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%info
+\title{Numerical study on 2D Riemann problems using state of the art solvers}
+\author{Ferre Van Assche, Vergauwen Bob}
+\institute{ KU Leuven}
+\date{January , 2015}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------- custom stuff --------------------------
+
+\usepackage{tikz}
+\usepackage{pgf}
+\usepackage{pgfplots}
+\usetikzlibrary{arrows,shapes}
+\RequirePackage{atbegshi}
+\usepackage{epigraph}
+\usepackage{etoolbox}
+\usepackage{wrapfig}
+\setlength\epigraphwidth{8cm}
+\setlength\epigraphrule{0pt}\makeatletter
+\patchcmd{\epigraph}{\@epitext{#1}}{\itshape\@epitext{#1}}{}{}
+\makeatother
+
+
+%------------------------ Custom comands ----------------------------
+
+\newcommand{\dif}{\text{d}}

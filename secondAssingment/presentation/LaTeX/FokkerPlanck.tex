@@ -1,0 +1,32 @@
+\begin{frame}{The Fokker-Planck equation}
+	\vspace{-5pt}
+	\begin{equation*}
+		\frac{\partial \mu_t (x)}{\partial t} + \nabla j_{\mu_t}(x) = 0, \hspace{15pt}  j_{\mu_t} = \frac{1}{\gamma}\mu_t \left( F - \nabla U \right) - \frac{\nabla\mu_t}{\beta\gamma}
+	\end{equation*}
+	\vspace{-10pt}
+	\begin{block}{Solution}
+		\begin{itemize}
+			\item  \fbox{$F = 0$}  $ \rightarrow $  equilibrium \hspace{12pt} $\rho(x)=\dfrac{1}{\mathcal{Z}} e^{-\beta U(x)}, \hspace{5pt} \mathcal{Z} = \int_{0}^{1} e^{-\beta U} \dif x $
+			\item  \fbox{$F\neq 0$}  and $ \int_{0}^{1}F \dif x \neq 0 $ $ \rightarrow $ no equilibrium
+			\begin{equation*}
+				\rho (x)= \frac{1}{\mathcal{Z}}\int_{0}^{1} \beta\gamma e^{\beta W(y,x)} \dif y, \hspace{15pt}
+				\mathcal{Z} = \int_{0}^{1} \int_{0}^{1} \beta\gamma e^{\beta W(y,x)} \dif y \dif x
+			\end{equation*}
+			\begin{equation*}
+				W(y,x) = U(y) - U(x) +
+				\begin{cases}
+					\int_{y}^{x}F \dif z  \hspace{5pt} &\text{ for } y\leq x\\
+					\int_{y}^{1}F \dif z + \int_{0}^{x}F\dif z \hspace{5pt} &\text{ for } y>x
+				\end{cases}
+			\end{equation*}
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{The Fokker-Planck equation}
+	\begin{figure}
+		\centering
+		\includegraphics[width=.8\textwidth]{../src/plot/langevin/RhoInFunctionOfX_Langevin-eps-converted-to.pdf}
+		\caption{$\rho(T)$ with $U= \sin(4\pi x)$, $k_b=1$, $\gamma=1$}
+	\end{figure}	
+\end{frame}
