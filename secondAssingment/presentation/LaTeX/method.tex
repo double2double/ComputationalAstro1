@@ -13,8 +13,44 @@
 \end{frame}
 
 
+
+\begin{frame}{TVDLF - Total Variation Diminishing (TVD) concept}
+	Total variation of numerical approximation of u:
+	\begin{equation*}
+		TV(u^n) = \sum_{i=0}^{N} |u_{i+1}^n-u_i^n|
+	\end{equation*}
+	Scheme is total variation diminishing in time if
+	\begin{equation*}
+		TV(u^{n+1}) \leq TV(u^{n}) \; \; \; \forall n
+	\end{equation*}
+\end{frame}
+
+
 \begin{frame}{TVDLF}
-content...
+	First order Lax-Friedrichs scheme:
+	\begin{equation*}
+		U_j^{n+1} = U_j^n - \frac{\Delta t}{\Delta x} \left( F_{j+1/2} - F_{j-1/2} \right) + \frac{1}{2} \left( \Phi_{j+1/2} - \Phi_{j-1/2} \right)
+	\end{equation*}
+	where
+	\begin{equation*}
+		F_{j+1/2} = \frac{F_j + F_{j+1}}{2}
+	\end{equation*}
+	\begin{equation*}
+		\Phi_{j+1/2} = U_{j+1}-U_j
+	\end{equation*}
+	Scheme is TVD $\Leftrightarrow$ CFL condition satisfied \newline
+	Scheme is first order accurate \newline
+	Reduce numerical diffusion:
+	\begin{equation*}
+		\Phi_{j+1/2} = \frac{\Delta t}{\Delta x} c_{j+1/2}^{max} \left( U_{j+1}-U_j \right)
+	\end{equation*}
+	
+	
+\begin{frame}{TVDLF - second order spatial accuracy}
+	
+	
+	
+
 \end{frame}
 
 \begin{frame}{TVD-MUSCL}
