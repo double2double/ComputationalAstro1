@@ -1,33 +1,62 @@
 Outline of the presentation
 
 
-Introduction:
+Introduction: (Bob)
 
 Algemeen uitleg over wat een riemann probleem inhoud.
 
 
-numerical methods:
+numerical methods: (Ferre)
+	TVDLF: 
+	...
+	Vertel iets over de werking van alle methode die we gebruiken... Heel kort maar.
+	...
+
+Working method, interaction with the server: (Bob)
+	\slide  MPI-AMRVAC and HPC
+	Of course did we not implement all these methods are selfs.
+	We used the provided software amrvac for doing this.
+	This is an open source software tool that is developed at the kuleuven.
+	But probably is every body familiar with this software so we are not going to go deeper in this.
+	
+	To get accurate predictions of the schemes it was necessary to use a fine enough grid to perform our calculations.
+	This in terms resulted in a large computational task.
+	To get results in a reasonable time we got to use the High performance computer located somewhere in flanders.
+	
+	The interface of this computer was not a usual graphical interface but had to be done over ssh.
+	This was a little bit inconvenient to use.
+	so we decided to do something about this interfacing problem.
+	
+	\slide Server interaction
+	
+	To make life easier we wanted to be able to change all the files locally and do as little as possible over an ssh connection.
+	To achieve this goal we wrote a script that did this for us.
+	The idea was to setup all the necessary files to start the compilation of the software locally. 
+	When we ran the script it would than take all those files, move them to the correct location on the server,
+	compile the code, create a job for it and submit this job to the cluster.
+	This process could all be run in parallel so that we where able to submit all 5 jobs (each with an other solver ) in under 2 min.
+	After the jobs where finished running (and off course we had a script running to check for that as well) we could run the same script as before
+	but with an other parameter to get all the data at the same time, it compressed it automatically and dowloaded it to our computer.
+	
+	This approach worked really well for us, to check each of the different initial conditions we just had to change one file on our own computer
+	and run the one script again.
+	Without the calculation time included we where able to setup a new initial condition and return the data in less than 10 minutes
+	(Of course we had to wait longer till the calculations where finished.)
+	
+	A last thing we tried was to run the code on the local network of the computer science building.
+	On this network all of the necessary software to run amrvac was available.
+	It turned out this was possible but only for a small amount of computers and for a short time.
+	We think the network was not stable enough to support the amrvac software.
+	although the firewall of the computer science labs could block it as well.
+	
 
 
 
-TVDLF:
-...
-Vertel iets over de werking van alle methode die we gebruiken... Heel kort maar.
+Resultaten Deel A:(Ferre)
+	Bespreking van 2 voorbeelden.
 
-
-
-
-Working method, interaction with the server:
-
-
-(vertel ook dat we hebben geprobeerd de code op cw te draaien.)
-(Vertel iets over de compile bug.)
-
-
-Resultaten Deel A:
-
-
-Resultaten Deel B:
-
-
-Resultaten Deel C:
+Resultaten Deel B: (Bob)
+	Bespreking van de explosie
+	(De error bij somige methode, druk negatief (assertion error))
+Resultaten Deel C: (Bob)
+	Heel kort weten we niet veel over.
