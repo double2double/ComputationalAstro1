@@ -190,6 +190,10 @@ Characteristic variables $\vec{r}^k$
 \end{frame}
 
 \begin{frame}{HLL}
+	Integrating over control volume:
+	\begin{equation*}
+	q^{hll} = \frac{s_r q_r - s_l q_l + f_l - f_r}{s_r-s_l}
+	\end{equation*}	
 	Following approximation is proposed:
 	\begin{equation*}
 	\tilde{q}(x,t) = \left\{ \begin{matrix} q_l & if \; \frac{x}{t} \leq s_l \\ q^{hll} & if \;  s_l \leq \frac{x}{t} \leq s_r \\ q_r & if \; \frac{x}{t} \geq s_r \end{matrix}\right.
@@ -198,10 +202,13 @@ Characteristic variables $\vec{r}^k$
 	\begin{equation*}
 	f_{i+1/2}^{hll} = \left\{ \begin{matrix} f_l & if \; 0 \leq s_l \\ \frac{s_r f_l - s_l f_r + s_l s_r (q_r - q_l)}{s_r - s_l}	 & if \;  s_l \leq 0 \leq s_r \\ f_r & if \; 0 \geq s_r \end{matrix}\right.
 	\end{equation*}
+\end{frame}
+
+\begin{frame}{HLL}
 	These formulas can be used in the explicit conservative formula:
 	\begin{equation*}
-	q_i^{n+1} = q_i^n + \frac{\Delta t}{\Delta x} \left[ f_{i-1/2} - f_{i+1/2} \right] 	
-	\end{equation*}
+	q_i^{n+1} = q_i^n + \frac{\Delta t}{\Delta x} \left[ f_{i-1/2} - f_{i+1/2} \right]
+	\end{equation*}	
 	Wave speeds $s_l$ and $s_r$ must be estimated.
 \end{frame}
 
